@@ -8,12 +8,7 @@ window.login.showLogin = function() {
       </div>
       <div>
         <label for="password">Contraseña</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          id="password"
-        />
+        <input type="password" class="form-control" name="password" id="password" />
       </div>
       <div>
         <input type="button" value="Iniciar sesión" onclick="window.login.loginUser()" />
@@ -41,12 +36,7 @@ window.login.showRegistration = function() {
       </div>
       <div>
         <label for="password">Contraseña</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          id="password"
-        />
+        <input type="password" class="form-control" name="password" id="password" />
       </div>
       <div>
         <input type="button" value="Atras" onclick="window.login.showLogin()" />
@@ -57,6 +47,7 @@ window.login.showRegistration = function() {
   window.root.innerHTML = registrationTemplate;
 };
 
+//registro usuarios nuevos
 window.login.registerUser = function(){
   let name = getElementById('name').value;
   let email = getElementById('email').value;
@@ -75,5 +66,24 @@ window.login.registerUser = function(){
     });
 };
 
-//registro usuarios nuevos
+window.login.loginUser = function () {
+  let email = getElementById('email').value;
+  let password = getElementById('password').value;
 
+  firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ...
+  });
+  
+}
+
+window.login.logOut = function () {
+  firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+    }).catch(function(error) {
+      // An error happened.
+      console.log(error)
+    });
+}
