@@ -77,7 +77,7 @@ window.login.loginUser = function () {
     // ...
   });
   
-}
+};
 
 window.login.logOut = function () {
   firebase.auth().signOut().then(function() {
