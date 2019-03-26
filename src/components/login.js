@@ -54,24 +54,10 @@ window.login.registerUser = function(){
   let curp = getElementById('curp').value;
   let password = getElementById('password').value;
   console.log(`${name} ${email} ${curp} ${password}`)
- 
-  let curpVerification = ('curp') => {
-    let curpV = getElementById('curp').value;
-    let gender = 10;
-    let genderM = curpV.charAt(gender);
-   
-    if (genderM === 'H'){
-      return
-      // firebase
-      // .catch(function(error) {
-      //   var errorCode = error.code;
-      //   var errorMessage = error.message;
-   
-      // });
-   
-   };
-
-  firebase
+  let gender = 10;
+  let genderM = curp.charAt(gender);
+  if (genderM === 'M') {
+    firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then(function(response){
@@ -89,6 +75,12 @@ window.login.registerUser = function(){
       var errorMessage = error.message;
       // ...
     });
+  }
+  else{
+    console.log("fail");
+  }
+
+  
 };
 
 window.login.loginUser = function () {
