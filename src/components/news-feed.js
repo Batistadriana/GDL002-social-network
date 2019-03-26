@@ -9,12 +9,12 @@ window.newsFeed.showFeed = function() {
     <input type="button" value="cerrar" onclick="window.login.logOut()" />
     `;
   window.root.innerHTML = newsFeedTemplate;
-  window.newsFeed.showNewPost("news-type", "new-post")
+  window.newsFeed.createNewPost("news-type", "new-post");
+  window.newsFeed.showNewsPosts();
 };
 
-window.newsFeed.showNewPost = function(type, elementName) {
-
-  let newPostTemplate = String.raw `
+window.newsFeed.createNewPost = function(type, elementId) {
+  let newPostTemplate = String.raw`
     <form>
     <div id="new-post-group">
       <label for="new-post-text">Crea tu post:</label>
@@ -22,42 +22,113 @@ window.newsFeed.showNewPost = function(type, elementName) {
       <textarea id="new-post-text" name="new-post-text" cols="50" row="15"></textarea>
     </div>
     <div id="news-url-group">
-    ${(type === "news-type") ? 
-    String.raw`
+    ${
+      type === "news-type"
+        ? String.raw`
     <label for="news-url">URL de Noticia:</label>
     <input type="text" name="news-url" id="news-url">
-     ` : 
-    ''}
+     `
+        : ""
+    }
     </div>
     <div id="button-group">
     <input type="button" id="share-button" value="Compartir">
     </div>
     </form>
-  `
-  let element = getElementById(elementName);
+  `;
+  let element = getElementById(elementId);
   element.innerHTML = newPostTemplate;
-  getElementById("share-button").addEventListener("click",function() {
+  getElementById("share-button").addEventListener("click", function() {
     // insertar en la db
+
+    // No guardar si el usuario no esta logueado
+    let user = firebase.auth().currentUser;
+    if (!user) {
+      return;
+    }
 
     let text = getElementById("new-post-text").value;
     let url = getElementById("news-url").value;
-    var db = firebase.firestore();
-    db.collection("users").add({
-      text: text,
-      url: url,
-      type: type
-  })
-  .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-  })
-  .catch(function(error) {
-      console.error("Error adding document: ", error);
-  });
-
+    let db = firebase.firestore();
+    db.collection("posts")
+      .add({
+        text: text,
+        url: url,
+        type: type,
+        userId: user.uid,
+        displayName: user.displayName,
+        date: new Date().toJSON()
+      })
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
 
     // reiniciar template de new post
-    window.newsFeed.showNewPost(type, elementName);
+    window.newsFeed.createNewPost(type, elementId);
+    window.newsFeed.showNewsPosts();
+  });
+};
 
+window.newsFeed.generateNewsPost = function(post) {
+  let date = new Date(post.date);
+  let formattedDate = `${date.getFullYear()}/${date.getMonth() +
+    1}/${date.getDate()}`;
+  let newsPostTemplate = String.raw`
+  <article class="post news-post">
+  <div class="meta-data">
+  <span>
+  ${formattedDate}
+  </span>
+  <span>
+  ${post.displayName}
+  </span>
+  </div>
+  <div class="content">
+    ${post.text}
+    <br/>
+    <a href="${
+      post.url
+    }" target="_blank" rel="noopener noreferrer">Enlace noticia</a>
+  </div>
+  </article>
+  `;
 
-  })
-}
+  return newsPostTemplate;
+};
+
+window.newsFeed.showNewsPosts = function() {
+  let db = firebase.firestore();
+  let element = getElementById("news");
+  db.collection("posts")
+    .where("type", "==", "news-type")
+    .get()
+    .then(function(querySnapshot) {
+      let posts = [];
+      querySnapshot.forEach(function(doc) { 
+        posts.push(doc.data());
+      });
+      posts = posts
+        .sort((a, b) => {
+          let dateA = new Date(a.date);
+          let dateB = new Date(b.date);
+          if (dateA < dateB) {
+            return -1;
+          } else if (dateA > dateB) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }).reverse();
+        posts = Array.from(posts);
+
+      let htmlPosts = posts.map(post => window.newsFeed.generateNewsPost(post)).join(" ");
+
+      element.innerHTML = htmlPosts;
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
+};

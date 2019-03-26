@@ -54,10 +54,35 @@ window.login.registerUser = function(){
   let curp = getElementById('curp').value;
   let password = getElementById('password').value;
   console.log(`${name} ${email} ${curp} ${password}`)
+ 
+  let curpVerification = ('curp') => {
+    let curpV = getElementById('curp').value;
+    let gender = 10;
+    let genderM = curpV.charAt(gender);
+   
+    if (genderM === 'H'){
+      return
+      // firebase
+      // .catch(function(error) {
+      //   var errorCode = error.code;
+      //   var errorMessage = error.message;
+   
+      // });
+   
+   };
 
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
+    .then(function(response){
+
+
+        // guardar nombre usuario
+        // para el curp necesitamos crear otra tabla
+        response.user.updateProfile({
+          displayName: name
+        });
+    })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
