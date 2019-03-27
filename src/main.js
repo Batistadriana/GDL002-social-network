@@ -14,7 +14,7 @@ let checkLogin = function(user) {
     }
   };
 
-firebase.auth().onAuthStateChanged(checkLogin)
+// firebase.auth().onAuthStateChanged(checkLogin)
 
 window.onpopstate = function(event) {
   console.log(window.location.pathname)
@@ -25,3 +25,5 @@ window.onpopstate = function(event) {
     checkLogin(user);
   }
 };
+// llamar manualmente al metodo onpopstate para que cargue la ruta actual
+window.onpopstate();
