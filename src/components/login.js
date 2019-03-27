@@ -1,5 +1,6 @@
 window.login = {};
 window.login.showLogin = function() {
+  history.pushState(null, 'Inicio', '/')
   let loginTemplate = String.raw`
     <form>
       <div>
@@ -20,6 +21,7 @@ window.login.showLogin = function() {
 };
 
 window.login.showRegistration = function() {
+  history.pushState(null,"register","create-user")
   let registrationTemplate = String.raw`
       <form>
         <div>

@@ -19,3 +19,13 @@ let checkLogin = function(user) {
   };
 
 firebase.auth().onAuthStateChanged(checkLogin)
+
+window.onpopstate = function(event) {
+  console.log(window.location.pathname)
+  if(window.location.pathname === '/create-user'){
+    window.login.showRegistration();
+  } else if(window.location.pathname === '/') {
+    let user = firebase.auth().currentUser;
+    checkLogin(user);
+  }
+};
