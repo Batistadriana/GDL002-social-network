@@ -1,9 +1,3 @@
-// // The Firebase SDK is initialized and available here!
-//
-// firebase.auth().onAuthStateChanged(user => { });
-// firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-//
-
 // guardamos el elemento root en una variable para que pueda ser utilizado por los componentes
 window.root = document.getElementById('root');
 window.getElementById = document.getElementById.bind(document);
@@ -11,9 +5,11 @@ window.getElementById = document.getElementById.bind(document);
 // funcion que checa si el usuario hizo login y decide que pantalla mostrar
 let checkLogin = function(user) {
     if (user) {
+      console.log('logueado');
       window.newsFeed.showFeed();
       
     } else {
+      console.log('no logueado');
       window.login.showLogin();
     }
   };

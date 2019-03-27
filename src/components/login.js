@@ -17,7 +17,7 @@ window.login.showLogin = function() {
       </div>
     </form>
   `;
-  
+  window.root.innerHTML = loginTemplate;
 };
 
 window.login.showRegistration = function() {
