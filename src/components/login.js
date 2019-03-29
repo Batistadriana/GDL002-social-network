@@ -63,8 +63,6 @@ window.login.registerUser = function(){
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then(function(response){
-
-
         // guardar nombre usuario
         // para el curp necesitamos crear otra tabla
         response.user.updateProfile({
