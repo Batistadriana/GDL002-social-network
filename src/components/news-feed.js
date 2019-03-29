@@ -1,5 +1,6 @@
 window.newsFeed = {};
 window.newsFeed.showFeed = function() {
+  history.pushState(null, 'noticias', '/news-feed')
   let newsFeedTemplate = String.raw`
     <h1>Noticias</h1>
     <!-- new post es el espacio que reservamos para poner el template para crear un post -->

@@ -23,6 +23,8 @@ window.onpopstate = function(event) {
   } else if(window.location.pathname === '/') {
     let user = firebase.auth().currentUser;
     checkLogin(user);
+  }else if (window.location.pathname === '/news-feed') {
+    window.newsFeed.showFeed();
   }
 };
 // llamar manualmente al metodo onpopstate para que cargue la ruta actual
