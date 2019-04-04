@@ -74,6 +74,7 @@ window.newsFeed.createNewPost = function(type, elementId) {
 };
 
 window.newsFeed.generateNewsPost = function(post) {
+  console.log("post")
   let date = new Date(post.date);
   let formattedDate = `${date.getFullYear()}/${date.getMonth() +
     1}/${date.getDate()}`;
@@ -93,12 +94,37 @@ window.newsFeed.generateNewsPost = function(post) {
     <a href="${
       post.url
     }" target="_blank" rel="noopener noreferrer">Enlace noticia</a>
+    <input type= "button"  class = "btn-delete" value="eliminar" > 
   </div>
   </article>
   `;
-
+  setTimeout(() => {
+    serchForEvent();
+  }, 0);
+ 
   return newsPostTemplate;
+
+
 };
+
+function serchForEvent () {
+   let buttons = document.querySelectorAll(".btn-delete")
+   buttons.forEach(function(buttons) {
+    buttons.addEventListener("click", deletePost)
+  });
+  }
+
+function deletePost() {
+  let db = firebase.firestore();
+  console.log("borrando")
+  db.collection("posts").doc("6vcZXOKeOQp0PZMJ9RG2")
+  .delete().then(function() {
+    console.log("Document successfully deleted!");
+}).catch(function(error) {
+    console.error("Error removing document: ", error);
+});
+
+}
 
 window.newsFeed.showNewsPosts = function() {
   let db = firebase.firestore();
@@ -110,6 +136,7 @@ window.newsFeed.showNewsPosts = function() {
       let posts = [];
       querySnapshot.forEach(function(doc) { 
         posts.push(doc.data());
+        
       });
       posts = posts
         .sort((a, b) => {
@@ -133,3 +160,5 @@ window.newsFeed.showNewsPosts = function() {
       console.log("Error getting documents: ", error);
     });
 };
+
+
