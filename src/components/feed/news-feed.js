@@ -12,38 +12,49 @@ let newsFeed = {
 
 newsFeed.savePost = function() {
   // No guardar si el usuario no esta logueado
-  let user = firebase.auth().currentUser;
-  if (!user) {
+  if (
+    !document.getElementById("new-post-text").value ||
+    !document.getElementById("news-url").value
+  ) {
+    alert("nop");
     return;
+  } else {
+    let user = firebase.auth().currentUser;
+
+    if (!user) {
+      return;
+    }
+
+    let text = document.getElementById("new-post-text").value;
+    let url = document.getElementById("news-url").value;
+    let db = firebase.firestore();
+    let type = document.getElementById("post-type").value;
+    db.collection("posts")
+      .add({
+        text: text,
+        url: url,
+        type: type,
+        userId: user.uid,
+        displayName: user.displayName,
+        date: new Date().toJSON()
+      })
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        router.navigateTo("/news-feed");
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
   }
 
-  let text = document.getElementById("new-post-text").value;
-  let url = document.getElementById("news-url").value;
-  let db = firebase.firestore();
-  let type = document.getElementById("post-type").value;
-  db.collection("posts")
-    .add({
-      text: text,
-      url: url,
-      type: type,
-      userId: user.uid,
-      displayName: user.displayName,
-      date: new Date().toJSON()
-    })
-    .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-      router.navigateTo("/news-feed");
-    })
-    .catch(function(error) {
-      console.error("Error adding document: ", error);
-    });
+  
 };
 
 newsFeed.serchForEvent = function() {
   let buttons = Array.from(document.querySelectorAll(".btn-delete"));
   buttons.forEach(function(button) {
-    let docId = button.getAttribute('doc-id');
-    button.addEventListener("click",() => newsFeed.deletePost(docId));
+    let docId = button.getAttribute("doc-id");
+    button.addEventListener("click", () => newsFeed.deletePost(docId));
   });
 };
 
@@ -55,7 +66,7 @@ newsFeed.deletePost = function(id) {
     .delete()
     .then(function() {
       console.log("Document successfully deleted!");
-      router.navigateTo('/news-feed')
+      router.navigateTo("/news-feed");
     })
     .catch(function(error) {
       console.error("Error removing document: ", error);
@@ -104,7 +115,7 @@ newsFeed.generateNewsFeed = function() {
   setTimeout(function() {
     newsFeed.showNewsPosts().then(function(htmlPosts) {
       let newsElement = document.getElementById("news");
-      if(newsElement) {
+      if (newsElement) {
         newsElement.innerHTML = htmlPosts;
       }
     });
@@ -112,5 +123,32 @@ newsFeed.generateNewsFeed = function() {
   return newsFeed.newsFeedTemplate();
 };
 
+newsFeed.saveChanges = function (id) {
+  let text = document.getElementById("new-post-text").value;
+  let url = document.getElementById("news-url").value;
+  let db = firebase.firestore();
+  db.collection("post").doc(id).set({
+    text: text,
+    url: url,
+    date: new Date().toJSON()
+    
+})
+.then(function() {
+    console.log("Document successfully written!");
+})
+.catch(function(error) {
+    console.error("Error writing document: ", error);
+});
+  
+}
+newsFeed.editPost = function () {
+  document
+  
+}
+
+
+
+globalFunctions.addFunctions("editPost",newsFeed.editPost)
+globalFunctions.addFunctions("saveChanges",newsFeed.saveChanges)
 globalFunctions.addFunctions("savePost", newsFeed.savePost);
 export default newsFeed;
