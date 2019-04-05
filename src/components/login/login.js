@@ -34,7 +34,7 @@ login.registerUser = function() {
         // ...
       });
   } else {
-    console.log("fail");
+    alert("Tus datos son incorrectos");
   }
 };
 
@@ -50,6 +50,7 @@ login.loginUser = function() {
       var errorCode = error.code;
       var errorMessage = error.message;
       // ...
+      alert("No estás registrada o tus datos son incorrectos")
     });
 };
 
