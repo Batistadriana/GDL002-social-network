@@ -12,10 +12,20 @@ let newsFeed = {
 
 newsFeed.savePost = function() {
   // No guardar si el usuario no esta logueado
+  if(document.getElementById("new-post-text").value === "" && document.getElementById("news-url").value === "") {
+return alert("Ingresa informacion en los campos.");
+  } else {
+
+
   let user = firebase.auth().currentUser;
+
+
   if (!user) {
     return;
   }
+
+
+
 
   let text = document.getElementById("new-post-text").value;
   let url = document.getElementById("news-url").value;
@@ -38,7 +48,7 @@ newsFeed.savePost = function() {
       console.error("Error adding document: ", error);
     });
 };
-
+}
 newsFeed.serchForEvent = function() {
   let buttons = Array.from(document.querySelectorAll(".btn-delete"));
   buttons.forEach(function(button) {

@@ -22,5 +22,7 @@ let newPostTemplate = function(type) {
       </div>
       </form>
     `;
+    document.getElementById("new-post-text").required;
+  
 };
 export default newPostTemplate;
