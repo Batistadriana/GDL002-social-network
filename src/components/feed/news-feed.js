@@ -123,32 +123,32 @@ newsFeed.generateNewsFeed = function() {
   return newsFeed.newsFeedTemplate();
 };
 
-newsFeed.saveChanges = function (id) {
-  let text = document.getElementById("new-post-text").value;
-  let url = document.getElementById("news-url").value;
-  let db = firebase.firestore();
-  db.collection("post").doc(id).set({
-    text: text,
-    url: url,
-    date: new Date().toJSON()
+// newsFeed.saveChanges = function (id) {
+//   let text = document.getElementById("new-post-text").value;
+//   let url = document.getElementById("news-url").value;
+//   let db = firebase.firestore();
+//   db.collection("post").doc(id).set({
+//     text: text,
+//     url: url,
+//     date: new Date().toJSON()
     
-})
-.then(function() {
-    console.log("Document successfully written!");
-})
-.catch(function(error) {
-    console.error("Error writing document: ", error);
-});
+// })
+// .then(function() {
+//     console.log("Document successfully written!");
+// })
+// .catch(function(error) {
+//     console.error("Error writing document: ", error);
+// });
   
-}
-newsFeed.editPost = function () {
-  document
+// }
+// newsFeed.editPost = function () {
+//   document
   
-}
+// }
 
 
 
-globalFunctions.addFunctions("editPost",newsFeed.editPost)
-globalFunctions.addFunctions("saveChanges",newsFeed.saveChanges)
+//globalFunctions.addFunctions("editPost",newsFeed.editPost)
+//globalFunctions.addFunctions("saveChanges",newsFeed.saveChanges)
 globalFunctions.addFunctions("savePost", newsFeed.savePost);
 export default newsFeed;
