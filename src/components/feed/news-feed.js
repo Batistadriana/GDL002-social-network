@@ -16,7 +16,7 @@ newsFeed.savePost = function() {
     !document.getElementById("new-post-text").value ||
     !document.getElementById("news-url").value
   ) {
-    alert("nop");
+    alert("Completa los campos");
     return;
   } else {
     let user = firebase.auth().currentUser;
