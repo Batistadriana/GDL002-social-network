@@ -14,14 +14,14 @@ let postTemplate = function(post) {
     </span>
     </div>
     <div class="content">
-      ${post.text}
+    <span class="post-text">  ${post.text} </span>
       <br/>
-      <a href="${
+      <a class="url" href="${
         post.url
       }" target="_blank" rel="noopener noreferrer">Enlace noticia</a>
           ${post.userId === user.uid ?
              String.raw`<input type="button" doc-id="${post.id}"  class="btn-delete" value="eliminar" >
-             <input type="button" class="btn-edit" value="Editar" >
+             <input type="button" class="btn-edit" doc-id="${post.id}" value="editar" >
              ` : ""}
          </div>
         </article>

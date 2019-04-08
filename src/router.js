@@ -2,6 +2,8 @@ import login from "./components/login/login.js";
 import newsFeed from "./components/feed/news-feed.js";
 import globalFunctions from "./global-functions.js";
 
+let pathPrefix = window.location.origin.indexOf(":5000") === -1 ? "/social-network" : "";
+
 let routes = {
   "/": checkLogin,
   "/login": login.loginTemplate,
@@ -16,7 +18,7 @@ let router = {
 
   navigateTo: function(pathName, skipPush) {
     if (!skipPush && pathName !== "/") {
-      window.history.pushState({}, pathName, window.location.origin + name);
+      window.history.pushState({}, pathName, window.location.origin + pathPrefix + pathName);
     }
     console.log(pathName);
     let html = routes[pathName]();
@@ -27,18 +29,19 @@ let router = {
 
 function checkLogin() {
   let user = firebase.auth().currentUser;
+  let pathName = window.location.pathname.replace(pathPrefix, "");
   if (user) {
     if (
-      window.location.pathname === "/" ||
-      window.location.pathname === "/login" ||
-      window.location.pathname === "/registration"
+      pathName === "/" ||
+      pathName === "/login" ||
+      pathName === "/registration"
     ) {
       return routes["/news-feed"]();
     } else {
-      return routes[window.location.pathname]();
+      return routes[pathName]();
     }
   } else {
-    if (window.location.pathname !== "/registration") {
+    if (pathName !== "/registration") {
       return routes["/login"]();
     } else {
       return routes["/registration"]();
