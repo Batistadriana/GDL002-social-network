@@ -17,9 +17,9 @@ let registrationTemplate = function() {
           <label for="password">Contraseña</label>
           <input type="password" class="form-control" name="password" id="password" />
         </div>
-        <div>
-          <input type="button" value="Atras" onclick="window.functions.navigateTo('/login')" />
-          <input type="button" value="Registrar" onclick="window.functions.registerUser()" />
+        <div class="registration-buttons center-align">
+          <input type="button" class="btn purple" value="Atras" onclick="window.functions.navigateTo('/login')" />
+          <input type="button" class="btn purple" value="Registrar" onclick="window.functions.registerUser()" />
         </div>
       </form>
     `;

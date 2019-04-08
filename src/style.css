@@ -1,7 +1,40 @@
 .logo {
-  height: 50px;
+  height: 60px;
   float: left;
 }
 .clearfix {
     overflow:hidden;
+}
+
+.login {
+  margin-top: 10vh;
+  width: 300px;
+}
+
+.login-buttons {
+  margin-top: 20px;
+}
+
+.registration-buttons {
+  margin-top: 20px;
+
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.page-footer {
+padding-top: 0%;
+height: 300%;
+margin-top: 4%;
+}
+label {
+font-size: 1.5rem;
 }

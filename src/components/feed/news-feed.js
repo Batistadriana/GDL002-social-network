@@ -12,11 +12,13 @@ let newsFeed = {
 
 newsFeed.savePost = function() {
   // No guardar si el usuario no esta logueado
+
   if (
     !document.getElementById("new-post-text").value ||
     !document.getElementById("news-url").value
   ) {
     alert("Completa los campos");
+
     return;
   } else {
     let user = firebase.auth().currentUser;
@@ -47,9 +49,9 @@ newsFeed.savePost = function() {
       });
   }
 
-  
-};
 
+};
+}
 newsFeed.serchForEvent = function() {
   let buttons = Array.from(document.querySelectorAll(".btn-delete"));
   buttons.forEach(function(button) {
