@@ -1,5 +1,6 @@
 let loginTemplate = function() {
   return String.raw`
+    <div class="row login">
       <form>
         <div>
           <label for="email">Email</label>
@@ -9,11 +10,12 @@ let loginTemplate = function() {
           <label for="password">Contraseña</label>
           <input type="password" class="form-control" name="password" id="password" />
         </div>
-        <div>
-          <input type="button" value="Iniciar sesión" onclick="window.functions.loginUser()" />
-          <input type="button" value="Registrar" onclick="window.functions.navigateTo('/registration')" />
+        <div class="login-buttons center-align">
+          <input type="button" class="btn purple" value="Iniciar sesión" onclick="window.functions.loginUser()" />
+          <input type="button" class="btn purple" value="Registrar" onclick="window.functions.navigateTo('/registration')" />
         </div>
       </form>
+    </div>
     `;
 };
 
