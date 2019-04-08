@@ -20,6 +20,27 @@
 
 }
 
+
+.meta-data{
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.content{
+  font-size: 17px;
+
+}
+
+.url{
+  font-size: 17px;
+}
+
+.title{
+  font-size: 30px;
+  text-align: center;
+}
+
+
 body {
   display: flex;
   min-height: 100vh;

@@ -51,7 +51,7 @@ newsFeed.savePost = function() {
 
 
 };
-}
+
 newsFeed.serchForEvent = function() {
   let buttons = Array.from(document.querySelectorAll(".btn-delete"));
   buttons.forEach(function(button) {
