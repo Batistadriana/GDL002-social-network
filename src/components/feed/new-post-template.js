@@ -2,7 +2,7 @@ let newPostTemplate = function(type,post) {
   return String.raw`
       <form>
       <div id="new-post-group">
-        <h2>${ post ? 'Estoy editando un post!' : 'Estoy creando un nuevo post!'}</h2>
+        <h2>${ post ? 'Editar un post!' : 'Crear un nuevo post!'}</h2>
         <label for="new-post-text">Crea tu post:</label>
         <br />
         <textarea id="new-post-text" name="new-post-text" cols="50" row="15" value="${post ? post.text : ""}"></textarea>
