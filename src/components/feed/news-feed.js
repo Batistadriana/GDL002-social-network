@@ -53,12 +53,21 @@ newsFeed.savePost = function() {
 };
 
 newsFeed.serchForEvent = function() {
-  let buttons = Array.from(document.querySelectorAll(".btn-delete"));
-  buttons.forEach(function(button) {
-    let docId = button.getAttribute("doc-id");
-    button.addEventListener("click", () => newsFeed.deletePost(docId));
+  let buttonsDelete = Array.from(document.querySelectorAll(".btn-delete"));
+  buttonsDelete.forEach(function(deleteButton) {
+    let docId = deleteButton.getAttribute("doc-id");
+    deleteButton.addEventListener("click", () => newsFeed.deletePost(docId));
   });
+let buttonsEdit = Array.from(document.querySelectorAll(".btn-edit"));
+  buttonsEdit.forEach(function(editButton) {
+    let docId = editButton.getAttribute("doc-id");
+    editButton.addEventListener("click", () => newsFeed.editPost(docId));
+  });
+  
 };
+
+
+
 
 newsFeed.deletePost = function(id) {
   let db = firebase.firestore();
@@ -104,7 +113,7 @@ newsFeed.showNewsPosts = function() {
       posts = Array.from(posts);
 
       let htmlPosts = posts.map(post => newsFeed.postTemplate(post)).join(" ");
-      setTimeout(() => newsFeed.serchForEvent(), 0);
+      setTimeout(() => newsFeed.serchForEvent(), 50);
       return htmlPosts;
     })
     .catch(function(error) {
@@ -125,32 +134,47 @@ newsFeed.generateNewsFeed = function() {
   return newsFeed.newsFeedTemplate();
 };
 
-// newsFeed.saveChanges = function (id) {
-//   let text = document.getElementById("new-post-text").value;
-//   let url = document.getElementById("news-url").value;
-//   let db = firebase.firestore();
-//   db.collection("post").doc(id).set({
-//     text: text,
-//     url: url,
-//     date: new Date().toJSON()
-    
-// })
-// .then(function() {
-//     console.log("Document successfully written!");
-// })
-// .catch(function(error) {
-//     console.error("Error writing document: ", error);
-// });
+newsFeed.saveChanges = function (id) {
+  let text = document.getElementById("new-post-text").value;
+  let url = document.getElementById("news-url").value;
+  let db = firebase.firestore();
+  db.collection("post").doc(id).set({
+    text: text,
+    url: url    
+})
+.then(function() {
+    console.log("Document successfully written!");
+    router.navigateTo('/news-feed');
+})
+.catch(function(error) {
+    console.error("Error writing document: ", error);
+});
   
-// }
-// newsFeed.editPost = function () {
-//   document
+}
+newsFeed.editPost = function (postId) {
+
+  let el = document.getElementById(postId);
+  let urlElement = el.querySelector(".url");
+  if(!urlElement) {
+    return;
+  }
+
+  let url  = urlElement.getAttribute("href").toString();
+  let textElement = el.querySelector(".post-text").innerText.toString();
+ let post = {
+   id: postId,
+   url : url,
+   text : textElement,
+ }
+  el.innerHTML = newPostTemplate ("news-type", post);
+
+
   
-// }
+}
 
 
 
-//globalFunctions.addFunctions("editPost",newsFeed.editPost)
-//globalFunctions.addFunctions("saveChanges",newsFeed.saveChanges)
+globalFunctions.addFunctions("editPost",newsFeed.editPost)
+globalFunctions.addFunctions("saveChanges",newsFeed.saveChanges)
 globalFunctions.addFunctions("savePost", newsFeed.savePost);
 export default newsFeed;

@@ -5,7 +5,7 @@ let newPostTemplate = function(type,post) {
         <h2>${ post ? 'Estoy editando un post!' : ''}</h2>
         <label for="new-post-text">Crea tu post:</label>
         <br />
-        <textarea id="new-post-text" name="new-post-text" cols="50" row="15" value="${post ? post.text : ""}"></textarea>
+        <textarea id="new-post-text" name="new-post-text" cols="50" row="15">${post ? post.text : ''}</textarea>
       </div>
       <div id="news-url-group">
       <input id="post-type" type="hidden" value="${type}" />
