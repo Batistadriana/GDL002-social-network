@@ -1,9 +1,10 @@
 let postTemplate = function(post) {
+  let user = firebase.auth().currentUser;
   let date = new Date(post.date);
   let formattedDate = `${date.getFullYear()}/${date.getMonth() +
     1}/${date.getDate()}`;
   let newsPostTemplate = String.raw`
-    <article class="post news-post">
+    <article id=${post.id} class="post news-post">
     <div class="meta-data">
     <span>
     ${formattedDate}
@@ -18,9 +19,13 @@ let postTemplate = function(post) {
       <a href="${
         post.url
       }" target="_blank" rel="noopener noreferrer">Enlace noticia</a>
-      <input type="button" doc-id="${post.id}"  class="btn-delete" value="eliminar" > 
-    </div>
-    </article>
+          ${post.userId === user.uid ?
+             String.raw`<input type="button" doc-id="${post.id}"  class="btn-delete" value="eliminar" >
+             <input type="button" class="btn-edit" value="Editar" >
+             ` : ""}
+         </div>
+        </article>
+  
     `;
   return newsPostTemplate;
 };
